@@ -15,11 +15,11 @@ PremiumOnly = false
 })
 
 local S1 = T2:AddSection({
-Name = "Hatch | Egg"
+Name = "Hatch & Craft | Egg"
 })
 
 local S2 = T2:AddSection({
-Name = "Gold & Craft | Pet"
+Name = "Gold | Pet"
 })
 
 S2:AddLabel("Chance of Failure in making pets into gold 0%")
@@ -198,7 +198,7 @@ S1:AddDropdown({
   end    
 })
 
-S2:AddDropdown({
+local PetSelector = S2:AddDropdown({
   Name = "Select Pet",
   Default = "",
   Options = pets,
@@ -206,6 +206,11 @@ S2:AddDropdown({
     _G._table_pet = Value
   end    
 })
+
+--[[
+Dropdown:Refresh(List<table>,true)
+Dropdown:Set("dropdown option")
+]]
 
 S2:AddDropdown({
   Name = "Select Pet Type",
@@ -268,7 +273,15 @@ S2:AddToggle({
   end    
 })
 
-S2:AddToggle({
+S2:AddButton({
+  Name = "Refresh Pet Selector",
+  Callback = function()
+      PetSelector:Refresh(pets,true)
+      --Dropdown:Set("Pet selection refreshed.")
+  end    
+})
+
+S1:AddToggle({
   Name = "Auto craft",
   Default = false,
   Callback = function(_)
