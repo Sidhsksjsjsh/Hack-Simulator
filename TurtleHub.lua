@@ -118,7 +118,7 @@ T1:AddToggle({
 
 T2:AddDropdown({
   Name = "Select Egg",
-  Default = "Basic Egg",
+  Default = "Grass Egg",
   Options = egg,
   Callback = function(Value)
     _G._table_egg = Value
