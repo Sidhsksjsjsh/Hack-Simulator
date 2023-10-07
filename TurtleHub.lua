@@ -9,10 +9,20 @@ PremiumOnly = false
 })
 
 local T2 = Window:MakeTab({
-Name = "Egg",
+Name = "Egg & Pet",
 Icon = "rbxassetid://4483345998",
 PremiumOnly = false
 })
+
+local S1 = T2:AddSection({
+Name = "Hatch | Egg"
+})
+
+local S2 = T2:AddSection({
+Name = "Gold & Craft | Pet"
+})
+
+S2:AddLabel("Chance of Failure in making pets into gold 0%")
 
 local T3 = Window:MakeTab({
 Name = "Misc",
@@ -170,7 +180,7 @@ T1:AddToggle({
   end    
 })
 
-T2:AddDropdown({
+S1:AddDropdown({
   Name = "Select Egg",
   Default = "Grass Egg",
   Options = egg,
@@ -179,7 +189,7 @@ T2:AddDropdown({
   end    
 })
 
-T2:AddDropdown({
+S1:AddDropdown({
   Name = "Number of Hatches",
   Default = "1",
   Options = {"1","3","8"},
@@ -188,7 +198,34 @@ T2:AddDropdown({
   end    
 })
 
-T2:AddToggle({
+S2:AddDropdown({
+  Name = "Select Pet",
+  Default = "",
+  Options = pets,
+  Callback = function(Value)
+    _G._table_pet = Value
+  end    
+})
+
+S2:AddDropdown({
+  Name = "Select Pet Type",
+  Default = "Baby",
+  Options = {"Baby","Big","Huge"},
+  Callback = function(Value)
+    _G._table_type = Value
+  end    
+})
+
+S2:AddDropdown({
+  Name = "How many pets do you want to turn into gold?",
+  Default = "1",
+  Options = {"1","2","3","4","5"},
+  Callback = function(Value)
+    _G._table_many = Value
+  end    
+})
+
+S1:AddToggle({
   Name = "Auto Hatch",
   Default = false,
   Callback = function(_)
@@ -200,7 +237,7 @@ T2:AddToggle({
   end    
 })
 
-T2:AddToggle({
+S1:AddToggle({
   Name = "Auto equip best",
   Default = false,
   Callback = function(_)
@@ -212,7 +249,26 @@ T2:AddToggle({
   end    
 })
 
-T2:AddToggle({
+local args = {
+    [1] = "Dominus Emperius",
+    [2] = 3,
+    [3] = 60,
+    [4] = "Baby"
+}
+
+S2:AddToggle({
+  Name = "Auto Golden",
+  Default = false,
+  Callback = function(_)
+   _G._g = _
+      while wait() do
+      if _G._g == false then break end
+      game:GetService("ReplicatedStorage")["Remotes"]["CraftGoldenPet"]:FireServer(_G._table_pet,tonumber(_G._table_many),100,_G._table_type)
+    end
+  end    
+})
+
+S2:AddToggle({
   Name = "Auto craft",
   Default = false,
   Callback = function(_)
