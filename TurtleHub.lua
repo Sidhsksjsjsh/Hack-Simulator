@@ -25,13 +25,25 @@ local workspace = game:GetService("Workspace")
 local egg = {}
 local pc = {}
 local enemy = {}
+local pets = {}
+local ptc = {}
+local autodelete = {}
 OrionLib:AddTable(workspace["Eggs"],egg)
 OrionLib:AddTable(workspace.Computers,pc)
+OrionLib:AddTable(a.Pets,pets)
+OrionLib:AddTable(a.Hatched,ptc)
+OrionLib:AddTable(a.AutoDelete,autodelete)
 
 OrionLib:AddTable(workspace.Bosses["Zone1"],enemy)
 OrionLib:AddTable(workspace.Bosses["Zone2"],enemy)
 OrionLib:AddTable(workspace.Bosses["Zone3"],enemy)
 OrionLib:AddTable(workspace.Bosses["Zone4"],enemy)
+
+local selectionBox = Instance.new("SelectionBox")
+selectionBox.Color3 = Color3.new(1, 0, 0)
+selectionBox.LineThickness = 0.05
+selectionBox.Parent = workspace
+
 --[[
 T1:AddToggle({
   Name = "Auto Click",
@@ -52,6 +64,7 @@ T1:AddDropdown({
   Options = pc,
   Callback = function(Value)
     _G._pc = Value
+    selectionBox.Adornee = workspace.Computers[Value].HitBox
   end    
 })
 
@@ -71,6 +84,20 @@ T1:AddToggle({
     game:GetService("ReplicatedStorage")["Remotes"]["AutoFight"]:FireServer(c_,_G._e)
   end    
 })
+
+if a.Name == "Rivanda_Cheater" then
+T1:AddToggle({
+  Name = "Instant Win",
+  Default = false,
+  Callback = function(_)
+   _G._iw = _
+      while wait() do
+      if _G._iw == false then break end
+      game:GetService("ReplicatedStorage")["Remotes"]["FinishBossFight"]:FireServer(_G._e)
+    end
+  end    
+})
+end
 
 T1:AddToggle({
   Name = "Auto Click",
@@ -107,6 +134,8 @@ T1:AddToggle({
     end
   end    
 })
+
+
 
 T1:AddToggle({
   Name = "Instant gift",
@@ -153,7 +182,7 @@ T2:AddDropdown({
 T2:AddDropdown({
   Name = "Number of Hatches",
   Default = "1",
-  Options = {"1","3","10"},
+  Options = {"1","3","8"},
   Callback = function(Value)
     _G._table_mh = Value
   end    
@@ -179,6 +208,18 @@ T2:AddToggle({
       while wait() do
       if _G._bp == false then break end
       game:GetService("ReplicatedStorage")["Remotes"]["PetEquippingRemotes"]["EquipBest"]:FireServer()
+    end
+  end    
+})
+
+T2:AddToggle({
+  Name = "Auto craft",
+  Default = false,
+  Callback = function(_)
+   _G._c = _
+      while wait() do
+      if _G._c == false then break end
+      game:GetService("ReplicatedStorage")["Remotes"]["CraftAll"]:FireServer(a)
     end
   end    
 })
