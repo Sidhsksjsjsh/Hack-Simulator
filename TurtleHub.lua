@@ -272,10 +272,10 @@ S2:AddToggle({
 })
 
 S2:AddButton({
-  Name = "Refresh Pet Selector",
+  Name = "Refresh Pet Selection",
   Callback = function()
       --PetSelector:Refresh(pets,true)
-      Dropdown:Set(pets)
+      PetSelector:Set(pets)
   end    
 })
 
