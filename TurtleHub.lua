@@ -95,7 +95,6 @@ T1:AddToggle({
   end    
 })
 
-if a.Name == "Rivanda_Cheater" then
 T1:AddToggle({
   Name = "Instant Win",
   Default = false,
@@ -107,7 +106,6 @@ T1:AddToggle({
     end
   end    
 })
-end
 
 T1:AddToggle({
   Name = "Auto Click",
@@ -276,8 +274,8 @@ S2:AddToggle({
 S2:AddButton({
   Name = "Refresh Pet Selector",
   Callback = function()
-      PetSelector:Refresh(pets,true)
-      --Dropdown:Set("Pet selection refreshed.")
+      --PetSelector:Refresh(pets,true)
+      Dropdown:Set(pets)
   end    
 })
 
