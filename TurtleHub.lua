@@ -23,7 +23,15 @@ PremiumOnly = false
 local a = game.Players.LocalPlayer
 local workspace = game:GetService("Workspace")
 local egg = {}
+local pc = {}
+local enemy = {}
 OrionLib:AddTable(workspace["Eggs"],egg)
+OrionLib:AddTable(workspace.Computers,pc)
+
+OrionLib:AddTable(workspace.Bosses["Zone1"],enemy)
+OrionLib:AddTable(workspace.Bosses["Zone2"],enemy)
+OrionLib:AddTable(workspace.Bosses["Zone3"],enemy)
+OrionLib:AddTable(workspace.Bosses["Zone4"],enemy)
 --[[
 T1:AddToggle({
   Name = "Auto Click",
@@ -41,9 +49,26 @@ T1:AddToggle({
 T1:AddDropdown({
   Name = "Select Computer",
   Default = "Computer1",
-  Options = {"Computer1","Computer2","Computer3","Computer4","Computer5","Computer6","Computer7"},
+  Options = pc,
   Callback = function(Value)
     _G._pc = Value
+  end    
+})
+
+T1:AddDropdown({
+  Name = "Choose an enemy to fight",
+  Default = "Bacon Hair",
+  Options = enemy,
+  Callback = function(Value)
+    _G._e = Value
+  end    
+})
+
+T1:AddToggle({
+  Name = "Auto Fight",
+  Default = false,
+  Callback = function(c_)
+    game:GetService("ReplicatedStorage")["Remotes"]["AutoFight"]:FireServer(c_,_G._e)
   end    
 })
 
@@ -84,7 +109,7 @@ T1:AddToggle({
 })
 
 T1:AddToggle({
-  Name = "Auto gift",
+  Name = "Instant gift",
   Default = false,
   Callback = function(_)
    _G._gift = _
