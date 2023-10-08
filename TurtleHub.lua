@@ -48,6 +48,7 @@ OrionLib:AddTable(workspace.Bosses["Zone1"],enemy)
 OrionLib:AddTable(workspace.Bosses["Zone2"],enemy)
 OrionLib:AddTable(workspace.Bosses["Zone3"],enemy)
 OrionLib:AddTable(workspace.Bosses["Zone4"],enemy)
+OrionLib:AddTable(workspace.Bosses["Zone5"],enemy)
 
 local selectionBox = Instance.new("SelectionBox")
 selectionBox.Color3 = Color3.new(1, 0, 0)
@@ -178,12 +179,15 @@ T1:AddToggle({
   end    
 })
 
+local EggPrice = S1:AddParagraph("Egg Price","Error #505")
+
 S1:AddDropdown({
   Name = "Select Egg",
   Default = "Grass Egg",
   Options = egg,
   Callback = function(Value)
     _G._table_egg = Value
+    EggPrice:Set(string.format("Currency: %s\nPrice: %s %s (%s %s)",tostring(workspace.Eggs[Value].Currency.Value),tostring(game.Workspace.Eggs[Value].Price.Value),tostring(workspace.Eggs[Value].Currency.Value),tostring(game.Workspace.Eggs[Value].UpperCost.BillboardGui.Frame.TextLabel.Text),tostring(workspace.Eggs[Value].Currency.Value)),Value .. " Price")
   end    
 })
 
@@ -275,6 +279,7 @@ S2:AddButton({
   Name = "Refresh Pet Selection",
   Callback = function()
       pets = {}
+      PetSelector:Refresh({"Refreshing.."},true)
       wait(0.1)
       OrionLib:AddTable(a.Pets,pets)
       wait(0.1)
