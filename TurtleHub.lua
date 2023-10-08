@@ -274,8 +274,12 @@ S2:AddToggle({
 S2:AddButton({
   Name = "Refresh Pet Selection",
   Callback = function()
-      --PetSelector:Refresh(pets,true)
-      PetSelector:Set(pets)
+      pets = {}
+      wait(0.1)
+      OrionLib:AddTable(a.Pets,pets)
+      wait(0.1)
+      PetSelector:Refresh(pets,true)
+      PetSelector:Set("Dominus Emperius")
   end    
 })
 
