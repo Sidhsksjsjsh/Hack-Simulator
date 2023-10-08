@@ -69,6 +69,10 @@ T1:AddToggle({
 })
 ]]
 
+function GetWins()
+  return a.leaderstats.Wins.Value
+end
+
 T1:AddDropdown({
   Name = "Select Computer",
   Default = "Computer1",
@@ -132,6 +136,7 @@ T1:AddToggle({
   end    
 })
 
+--[[
 T1:AddToggle({
   Name = "Auto train",
   Default = false,
@@ -143,8 +148,7 @@ T1:AddToggle({
     end
   end    
 })
-
-
+]]
 
 T1:AddToggle({
   Name = "Instant gift",
@@ -237,9 +241,16 @@ S1:AddToggle({
   Default = false,
   Callback = function(_)
    _G._htc = _
+  if tostring(GetWins()) < tostring(workspace.Eggs[_G._table_egg].Price.Value) then
+       OrionLib:MakeNotification({Name = "Not enough",Content = 'Its not enough to buy "' .. tostring(_G._table_egg) .. '" because your wins are less',Image = tostring(workspace.Eggs[_G._table_egg].UpperCost.BillboardGui.Frame.ImageLabel.Image),Time = 5})
+  end
+  
       while wait() do
       if _G._htc == false then break end
+        if tostring(GetWins()) < tostring(workspace.Eggs[_G._table_egg].Price.Value) then break end
+        if tostring(GetWins()) > tostring(workspace.Eggs[_G._table_egg].Price.Value) then
       game:GetService("ReplicatedStorage")["Remotes"]["EggHatchingRemotes"]["HatchingEgg"]:FireServer(workspace["Eggs"][_G._table_egg],tonumber(_G._table_mh))
+       end
     end
   end    
 })
