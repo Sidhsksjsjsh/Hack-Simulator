@@ -70,7 +70,7 @@ T1:AddToggle({
 ]]
 
 function GetWins()
-  return a.leaderstats.Wins.Value
+  return a.leaderstats.Wins.Value -- IQ, Rebirths, TypingSpeed, Wins
 end
 
 T1:AddDropdown({
