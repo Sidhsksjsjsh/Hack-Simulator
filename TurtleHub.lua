@@ -447,7 +447,7 @@ S4:AddButton({
       pets = {}
       PetConfig:Refresh({"Refreshing.."},true)
       wait(0.1)
-      PetConfig:AddTable(a.Pets,pets)
+      OrionLib:AddTable(a.Pets,pets)
       wait(0.1)
       PetConfig:Refresh(pets,true)
       PetConfig:Set("Dominus Emperius")
