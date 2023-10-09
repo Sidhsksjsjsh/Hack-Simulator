@@ -4,13 +4,13 @@ local Window = OrionLib:MakeWindow({Name = "VIP Turtle Hub V3", HidePremium = fa
 
 local T1 = Window:MakeTab({
 Name = "Main",
-Icon = "rbxassetid://4483345998",
+Icon = "rbxassetid://",
 PremiumOnly = false
 })
 
 local T2 = Window:MakeTab({
 Name = "Egg & Pet",
-Icon = "rbxassetid://4483345998",
+Icon = "rbxassetid://",
 PremiumOnly = false
 })
 
@@ -34,18 +34,27 @@ S2:AddLabel("Chance of Failure in making pets into gold 0%")
 
 local T3 = Window:MakeTab({
 Name = "Misc",
-Icon = "rbxassetid://4483345998",
+Icon = "rbxassetid://",
+PremiumOnly = false
+})
+
+local T4 = Window:MakeTab({
+Name = "Book",
+Icon = "rbxassetid://",
 PremiumOnly = false
 })
 
 local a = game.Players.LocalPlayer
 local workspace = game:GetService("Workspace")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local egg = {}
 local pc = {}
 local enemy = {}
 local pets = {}
 local ptc = {}
 local autodelete = {}
+local book = {}
+
 OrionLib:AddTable(workspace["Eggs"],egg)
 OrionLib:AddTable(workspace.Computers,pc)
 OrionLib:AddTable(a.Pets,pets)
@@ -57,6 +66,12 @@ OrionLib:AddTable(workspace.Bosses["Zone2"],enemy)
 OrionLib:AddTable(workspace.Bosses["Zone3"],enemy)
 OrionLib:AddTable(workspace.Bosses["Zone4"],enemy)
 OrionLib:AddTable(workspace.Bosses["Zone5"],enemy)
+
+OrionLib:AddTable(ReplicatedStorage.Assets["Zone1"],book)
+OrionLib:AddTable(ReplicatedStorage.Assets["Zone2"],book)
+OrionLib:AddTable(ReplicatedStorage.Assets["Zone3"],book)
+OrionLib:AddTable(ReplicatedStorage.Assets["Zone4"],book)
+OrionLib:AddTable(ReplicatedStorage.Assets["Zone5"],book)
 
 local selectionBox = Instance.new("SelectionBox")
 selectionBox.Color3 = Color3.new(1, 0, 0)
@@ -462,15 +477,18 @@ T3:AddToggle({
     end
   end    
 })
---[[
-T1:AddToggle({
-  Name = "Auto Redeem all codes",
-  Default = false,
-  Callback = function(_)
-   _G._rac = _
-      while wait() do
-      if _G._rac == false then break end
-      k
-    end
+
+T4:AddDropdown({
+  Name = "Select a book",
+  Default = "Book 1",
+  Options = book,
+  Callback = function(Value)
+    _G._book = Value
   end    
-})]]
+})
+
+T4:AddButton({
+  Name = "Equip Book",
+  Callback = function()
+        ReplicatedStorage["Remotes"]["EquipBook"]:FireServer(_G._book)
+end})
