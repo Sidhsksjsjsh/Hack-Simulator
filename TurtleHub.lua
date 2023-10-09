@@ -70,7 +70,7 @@ Player:SetAttribute("HP",number)
 
 function CheckPet(b)
 for _,v in pairs(a.Pets:GetChildren()) do
-    if v:FindFirstChild(b) or v:find(b) then
+    if v:FindFirstChild(b) then
       return true
     else
       return false
@@ -382,7 +382,7 @@ S3:AddToggle({
 S3:AddButton({
   Name = "Delete 🗑️",
   Callback = function()
-  if CheckPet(_G._table_pet2) then
+  if CheckPet(_G._table_pet2) == true then
    if _G._Refreshed == true then
       pets = {}
       PetSelectorA2:Refresh({"Refreshing.."},true)
