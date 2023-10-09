@@ -22,6 +22,10 @@ local S2 = T2:AddSection({
 Name = "Gold | Pet"
 })
 
+local S3 = T2:AddSection({
+Name = "Delete | Pet"
+})
+
 S2:AddLabel("Chance of Failure in making pets into gold 0%")
 
 local T3 = Window:MakeTab({
@@ -54,6 +58,16 @@ local selectionBox = Instance.new("SelectionBox")
 selectionBox.Color3 = Color3.new(1, 0, 0)
 selectionBox.LineThickness = 0.05
 selectionBox.Parent = workspace
+
+function CheckPet(b)
+for _,v in pairs(a.Pets:GetChildren()) do
+    if v.Name:FindFirstChild(b) then
+      return true
+    else
+      return false
+    end
+  end
+end
 
 --[[
 T1:AddToggle({
@@ -183,6 +197,18 @@ T1:AddToggle({
   end    
 })
 
+T1:AddToggle({
+  Name = "Auto Claim Free Pet",
+  Default = false,
+  Callback = function(_)
+   _G._FREEPET = _
+      while wait() do
+      if _G._FREEPET == false then break end
+      game:GetService("ReplicatedStorage")["Remotes"]["FreePet"]:FireServer()
+    end
+  end    
+})
+
 local EggPrice = S1:AddParagraph("Egg Price","Error #505")
 
 S1:AddDropdown({
@@ -191,7 +217,7 @@ S1:AddDropdown({
   Options = egg,
   Callback = function(Value)
     _G._table_egg = Value
-    EggPrice:Set(string.format("Currency: %s\nPrice: %s %s (%s %s)",tostring(workspace.Eggs[Value].Currency.Value),tostring(game.Workspace.Eggs[Value].Price.Value),tostring(workspace.Eggs[Value].Currency.Value),tostring(game.Workspace.Eggs[Value].UpperCost.BillboardGui.Frame.TextLabel.Text),tostring(workspace.Eggs[Value].Currency.Value)),Value .. " Price")
+    EggPrice:Set(string.format("Currency: %s\nPrice: %s %s (%s %s)",tostring(workspace.Eggs[Value].Currency.Value),tostring(workspace.Eggs[Value].Price.Value),tostring(workspace.Eggs[Value].Currency.Value),tostring(workspace.Eggs[Value].UpperCost.BillboardGui.Frame.TextLabel.Text),tostring(workspace.Eggs[Value].Currency.Value)),Value .. " Price")
   end    
 })
 
@@ -308,6 +334,59 @@ S1:AddToggle({
       if _G._c == false then break end
       game:GetService("ReplicatedStorage")["Remotes"]["CraftAll"]:FireServer(a)
     end
+  end    
+})
+
+local PetSelectorA2 = S3:AddDropdown({
+  Name = "Select Pet",
+  Default = "",
+  Options = pets,
+  Callback = function(Value)
+    _G._table_pet2 = Value
+  end    
+})
+
+--[[
+Dropdown:Refresh(List<table>,true)
+Dropdown:Set("dropdown option")
+]]
+
+S3:AddDropdown({
+  Name = "Select Pet Type",
+  Default = "Baby",
+  Options = {"Baby","Big","Huge"},
+  Callback = function(Value)
+    _G._table_type2 = Value
+  end    
+})
+
+S3:AddToggle({
+  Name = "Auto Refresh when u click Delete.",
+  Default = false,
+  Callback = function(_)
+   _G._Refreshed = _
+  end    
+})
+
+S3:AddButton({
+  Name = "Delete 🗑️",
+  Callback = function()
+  if CheckPet(_G._table_pet2) then
+   if _G._Refreshed == true then
+      pets = {}
+      PetSelectorA2:Refresh({"Refreshing.."},true)
+      wait(0.1)
+      OrionLib:AddTable(a.Pets,pets)
+      wait(0.1)
+      PetSelectorA2:Refresh(pets,true)
+      PetSelectorA2:Set("Dominus Emperius")
+      game:GetService("ReplicatedStorage")["Remotes"]["PetEquippingRemotes"]["Delete"]:FireServer(_G._table_pet2,false,true,_G._table_type2)
+    else
+      game:GetService("ReplicatedStorage")["Remotes"]["PetEquippingRemotes"]["Delete"]:FireServer(_G._table_pet2,false,true,_G._table_type2)
+    end
+    else
+        OrionLib:MakeNotification({Name = "Pet Not Found",Content = "The pet you chose was not found, that's because you have deleted it or you haven't gotten it from the egg",Image = tostring(workspace.Eggs[_G._table_egg].UpperCost.BillboardGui.Frame.ImageLabel.Image),Time = 5})
+      end
   end    
 })
 
