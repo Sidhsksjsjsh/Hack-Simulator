@@ -26,6 +26,10 @@ local S3 = T2:AddSection({
 Name = "Delete | Pet"
 })
 
+local S4 = T2:AddSection({
+Name = "Pet Config"
+})
+
 S2:AddLabel("Chance of Failure in making pets into gold 0%")
 
 local T3 = Window:MakeTab({
@@ -59,9 +63,14 @@ selectionBox.Color3 = Color3.new(1, 0, 0)
 selectionBox.LineThickness = 0.05
 selectionBox.Parent = workspace
 
+--[[
+Player:GetAttribute("CurMainMissionId")
+Player:SetAttribute("HP",number)
+]]
+
 function CheckPet(b)
 for _,v in pairs(a.Pets:GetChildren()) do
-    if v.Name:FindFirstChild(b) then
+    if v:FindFirstChild(b) or v:find(b) then
       return true
     else
       return false
@@ -244,7 +253,7 @@ Dropdown:Refresh(List<table>,true)
 Dropdown:Set("dropdown option")
 ]]
 
-S2:AddDropdown({
+--[[S2:AddDropdown({
   Name = "Select Pet Type",
   Default = "Baby",
   Options = {"Baby","Big","Huge"},
@@ -252,6 +261,7 @@ S2:AddDropdown({
     _G._table_type = Value
   end    
 })
+]]
 
 S2:AddDropdown({
   Name = "How many pets do you want to turn into gold?",
@@ -307,7 +317,7 @@ S2:AddToggle({
    _G._g = _
       while wait() do
       if _G._g == false then break end
-      game:GetService("ReplicatedStorage")["Remotes"]["CraftGoldenPet"]:FireServer(_G._table_pet,tonumber(_G._table_many),100,_G._table_type)
+      game:GetService("ReplicatedStorage")["Remotes"]["CraftGoldenPet"]:FireServer(_G._table_pet,tonumber(_G._table_many),100,a.Pets[_G._table_pet]:GetAttribute("Craft"))
     end
   end    
 })
@@ -351,7 +361,7 @@ Dropdown:Refresh(List<table>,true)
 Dropdown:Set("dropdown option")
 ]]
 
-S3:AddDropdown({
+--[[S3:AddDropdown({
   Name = "Select Pet Type",
   Default = "Baby",
   Options = {"Baby","Big","Huge"},
@@ -359,6 +369,7 @@ S3:AddDropdown({
     _G._table_type2 = Value
   end    
 })
+]]
 
 S3:AddToggle({
   Name = "Auto Refresh when u click Delete.",
@@ -380,15 +391,33 @@ S3:AddButton({
       wait(0.1)
       PetSelectorA2:Refresh(pets,true)
       PetSelectorA2:Set("Dominus Emperius")
-      game:GetService("ReplicatedStorage")["Remotes"]["PetEquippingRemotes"]["Delete"]:FireServer(_G._table_pet2,false,true,_G._table_type2)
+      game:GetService("ReplicatedStorage")["Remotes"]["PetEquippingRemotes"]["Delete"]:FireServer(_G._table_pet2,false,true,a.Pets[_G._table_pet2]:GetAttribute("Craft"))
     else
-      game:GetService("ReplicatedStorage")["Remotes"]["PetEquippingRemotes"]["Delete"]:FireServer(_G._table_pet2,false,true,_G._table_type2)
+      game:GetService("ReplicatedStorage")["Remotes"]["PetEquippingRemotes"]["Delete"]:FireServer(_G._table_pet2,false,true,a.Pets[_G._table_pet2]:GetAttribute("Craft"))
     end
     else
         OrionLib:MakeNotification({Name = "Pet Not Found",Content = "The pet you chose was not found, that's because you have deleted it or you haven't gotten it from the egg",Image = tostring(workspace.Eggs[_G._table_egg].UpperCost.BillboardGui.Frame.ImageLabel.Image),Time = 5})
       end
   end    
 })
+
+--[[
+Player:SetAttribute("HP",number)
+]]
+
+if a.Name == "Rivanda_Cheater" then
+S4:AddButton({
+  Name = "Instant Big [BETA]",
+  Callback = function()
+    a.Pets[_G._table_pet2]:SetAttribute("Craft","Big")
+end})
+
+S4:AddButton({
+  Name = "Instant Huge [BETA]",
+  Callback = function()
+    a.Pets[_G._table_pet2]:SetAttribute("Craft","Huge")
+end})
+end
 
 T3:AddToggle({
   Name = "Auto Luck Boost",
