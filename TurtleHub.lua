@@ -405,23 +405,39 @@ S3:AddButton({
 Player:SetAttribute("HP",number)
 ]]
 
-if a.Name == "Rivanda_Cheater" then
+local PetConfig = S4:AddDropdown({
+  Name = "Select Pet",
+  Default = "",
+  Options = pets,
+  Callback = function(Value)
+    _G._cpet = Value
+  end    
+})
+    
 S4:AddButton({
-  Name = "Instant Big [BETA] [All Pet]",
+  Name = "Instant Big [BETA]",
   Callback = function()
-        for _,v in pairs(a.Pets:GetChildren()) do
-          a.Pets[v]:SetAttribute("Craft","Big")
-        end
+    a.Pets[_G._cpet]:SetAttribute("Craft","Big")
 end})
 
 S4:AddButton({
-  Name = "Instant Huge [BETA] [All Pet]",
+  Name = "Instant Huge [BETA]",
   Callback = function()
-    for _,v in pairs(a.Pets:GetChildren()) do
-          a.Pets[v]:SetAttribute("Craft","Huge")
-        end
+    a.Pets[_G._cpet]:SetAttribute("Craft","Huge")
 end})
-end
+
+S4:AddButton({
+  Name = "Refresh Pet Selection",
+  Callback = function()
+      pets = {}
+      PetConfig:Refresh({"Refreshing.."},true)
+      wait(0.1)
+      PetConfig:AddTable(a.Pets,pets)
+      wait(0.1)
+      PetConfig:Refresh(pets,true)
+      PetConfig:Set("Dominus Emperius")
+  end    
+})
 
 T3:AddToggle({
   Name = "Auto Luck Boost",
