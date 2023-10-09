@@ -277,7 +277,7 @@ S1:AddToggle({
   Default = false,
   Callback = function(_)
    _G._htc = _
-  if tostring(GetWins()) < tostring(workspace.Eggs[_G._table_egg].Price.Value) then
+  if tostring(GetWins()) < tostring(workspace.Eggs[_G._table_egg].Price.Value) and _G._htc == true then
        OrionLib:MakeNotification({Name = "Not enough",Content = 'Its not enough to buy "' .. tostring(_G._table_egg) .. '" because your wins are less',Image = tostring(workspace.Eggs[_G._table_egg].UpperCost.BillboardGui.Frame.ImageLabel.Image),Time = 5})
   end
   
