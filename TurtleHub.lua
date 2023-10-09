@@ -407,15 +407,19 @@ Player:SetAttribute("HP",number)
 
 if a.Name == "Rivanda_Cheater" then
 S4:AddButton({
-  Name = "Instant Big [BETA]",
+  Name = "Instant Big [BETA] [All Pet]",
   Callback = function()
-    a.Pets[_G._table_pet2]:SetAttribute("Craft","Big")
+        for _,v in pairs(a.Pets:GetChildren()) do
+          a.Pets[v]:SetAttribute("Craft","Big")
+        end
 end})
 
 S4:AddButton({
-  Name = "Instant Huge [BETA]",
+  Name = "Instant Huge [BETA] [All Pet]",
   Callback = function()
-    a.Pets[_G._table_pet2]:SetAttribute("Craft","Huge")
+    for _,v in pairs(a.Pets:GetChildren()) do
+          a.Pets[v]:SetAttribute("Craft","Huge")
+        end
 end})
 end
 
