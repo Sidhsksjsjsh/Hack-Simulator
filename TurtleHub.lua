@@ -73,7 +73,12 @@ OrionLib:AddTable(ReplicatedStorage.Assets["Zone3"],book)
 OrionLib:AddTable(ReplicatedStorage.Assets["Zone4"],book)
 OrionLib:AddTable(ReplicatedStorage.Assets["Zone5"],book)
 
+if workspace:FindFirstChild("sb") then
+    workspace.sb:Destroy()
+end
+
 local selectionBox = Instance.new("SelectionBox")
+selectionBox.Name = "sb"
 selectionBox.Color3 = Color3.new(1, 0, 0)
 selectionBox.LineThickness = 0.05
 selectionBox.Parent = workspace
@@ -109,6 +114,18 @@ T1:AddToggle({
 
 function GetWins()
   return a.leaderstats.Wins.Value -- IQ, Rebirths, TypingSpeed, Wins
+end
+
+function GetIQ()
+    return a.leaderstats.IQ.Value
+end
+
+function GetRebirth()
+    return a.leaderstats.Rebirths.Value
+end
+
+function GetTypingSpeed()
+    return a.leaderstats.TypingSpeed.Value
 end
 
 T1:AddDropdown({
