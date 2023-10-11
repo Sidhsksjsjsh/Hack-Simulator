@@ -73,10 +73,6 @@ OrionLib:AddTable(ReplicatedStorage.Assets["Zone3"],book)
 OrionLib:AddTable(ReplicatedStorage.Assets["Zone4"],book)
 OrionLib:AddTable(ReplicatedStorage.Assets["Zone5"],book)
 
-if workspace:FindFirstChild("sb") then
-    workspace.sb:Destroy()
-end
-
 local selectionBox = Instance.new("SelectionBox")
 selectionBox.Name = "sb"
 selectionBox.Color3 = Color3.new(1, 0, 0)
