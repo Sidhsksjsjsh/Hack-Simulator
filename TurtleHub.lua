@@ -108,20 +108,27 @@ T1:AddToggle({
 })
 ]]
 
+local function FilterDecimal(str)
+    local number = tostring(str)
+    local filter = number:find("%.")
+    
+    return filter and tonumber(number:sub(1, filter-1)) or str
+end
+
 function GetWins()
-  return a.leaderstats.Wins.Value -- IQ, Rebirths, TypingSpeed, Wins
+  return FilterDecimal(a.leaderstats.Wins.Value) -- IQ, Rebirths, TypingSpeed, Wins
 end
 
 function GetIQ()
-    return a.leaderstats.IQ.Value
+    return FilterDecimal(a.leaderstats.IQ.Value)
 end
 
 function GetRebirth()
-    return a.leaderstats.Rebirths.Value
+    return FilterDecimal(a.leaderstats.Rebirths.Value)
 end
 
 function GetTypingSpeed()
-    return a.leaderstats.TypingSpeed.Value
+    return FilterDecimal(a.leaderstats.TypingSpeed.Value)
 end
 
 T1:AddDropdown({
